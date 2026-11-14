@@ -124,10 +124,10 @@ router rip
 - `show ip interface brief`: all used interfaces should be up/up
 - `show ip route`: every router should show `R` (RIP) routes for the subnets it is not directly connected to
 - Ping tests: PC0 to PC5 (`ping 192.168.1.210`) and PC4 to PC3 (`ping 192.168.1.162`)
-
+```
 ![Routing Table](lab-02/images/show-ip-route.png)
-![Ping Test](lab-02/images/ping-test.png)
-
+![Ping Test](lab-02/images/ping-test.png) 
+```
 ### How to Open
 Open `lab-02/vlsm-three-router-topology.pkt` in Cisco Packet Tracer.
 
@@ -203,7 +203,7 @@ router eigrp 1
 - `show ip route`: Router0 should show EIGRP (`D`) routes for 172.16.0.0 and 213.10.10.0
 - Ping order: PC to its gateway, then the next router, then the remote device
 
-![Routing Table](lab-03/images/show-ip-route.png)
+
 ![Ping Test](lab-03/images/ping-test.png)
 
 ### How to Open
