@@ -16,7 +16,7 @@ Cisco Packet Tracer labs for the Computer Networks course at AIUB.
 Two LANs connected through two routers over a serial link. Each LAN has one switch and one PC. After configuration, all devices can reach each other using ICMP ping.
 
 ### Topology
-![Topology](lab-01/images/topology.png)
+![Topology](lab-01/topology.png)
 
 ```
 PC0 -- Switch0 -- Router0 ==(Serial)== Router1 -- Switch1 -- PC1
@@ -50,7 +50,7 @@ PC0 -- Switch0 -- Router0 ==(Serial)== Router1 -- Switch1 -- PC1
 | 192.168.2.0/24 | Router0 and Router1 (serial link) |
 | 192.168.3.0/24 | Router1 and PC1 (LAN 2)           |
 
-![Device Info](lab-01/images/device-info.png)
+![Device Info](lab-01/device-info.png)
 
 ### Routing
 Static routes configured on both routers.
