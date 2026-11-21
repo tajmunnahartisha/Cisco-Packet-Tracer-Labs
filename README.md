@@ -175,27 +175,36 @@ All used interfaces are enabled with `no shutdown`.
 
 **Router0**
 ```
+enable
+configure terminal
 router eigrp 1
- network 10.0.0.0 0.255.255.255
- network 200.20.20.0 0.0.0.7
- no auto-summary
+network 10.0.0.0 0.255.255.255
+network 200.20.20.0 0.0.0.7
+no auto-summary
+exit
 ```
 
 **Router1**
 ```
+enable
+configure terminal
 router eigrp 1
- network 10.0.0.0 0.255.255.255
- network 172.16.0.0 0.0.255.255
- network 195.10.10.0 0.0.0.3
- no auto-summary
+network 10.0.0.0 0.255.255.255
+network 172.16.0.0 0.0.255.255
+network 195.10.10.0 0.0.0.3
+no auto-summary
+exit
 ```
 
 **Router2**
 ```
+enable
+configure terminal
 router eigrp 1
- network 195.10.10.0 0.0.0.3
- network 213.10.10.0 0.0.0.3
- no auto-summary
+network 195.10.10.0 0.0.0.3
+network 213.10.10.0 0.0.0.3
+no auto-summary
+exit
 ```
 
 ### Verification
