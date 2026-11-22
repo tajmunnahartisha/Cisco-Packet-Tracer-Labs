@@ -113,11 +113,47 @@ This file uses Router-PT routers (`Fa0/0`, `Fa1/0`, `Se2/0`, `Se3/0`).
 ### Routing (RIPv2)
 Same configuration on all three routers:
 
+### EIGRP Configuration
+
+**Router0(HQ)**
 ```
+en
+config t
 router rip
- version 2
- network 192.168.1.0
- no auto-summary
+version 2
+network 192.168.1.0
+network 192.168.1.64
+network 192.168.1.224
+network 192.168.1.228
+no auto summary
+exit
+```
+
+**Router1(HQ)**
+```
+en
+config t
+router rip
+version 2
+network 192.168.1.128
+network 192.168.1.160
+network 192.168.1.225
+network 192.168.1.231
+no auto summary
+exit
+```
+
+**Router2(HQ)**
+```
+en
+config t
+router rip
+network 192.168.1.192
+network 192.168.1.208
+network 192.168.1.233
+network 192.168.1.229
+no auto summary
+exit
 ```
 
 ### Verification
