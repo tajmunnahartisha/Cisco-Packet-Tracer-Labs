@@ -274,7 +274,7 @@ Open `Mid-Term/lab-03/eigrp-three-router-topology.pkt` in Cisco Packet Tracer.
 Three routers connected in a triangle through serial links. OSPF (process 1, area 0) is used so every router learns every network dynamically. Each router has one LAN on Fa0/0 and two serial links (/30) to the other routers.
 
 ### Topology
-![Topology](Final-Term/lab-01/images/topology.png)
+![Topology](Final-Term/lab-01/images/OSPF.png)
 
 ```
 Router0 (Se2/0) ==== (Se2/0) Router1
