@@ -4,13 +4,23 @@ Cisco Packet Tracer labs for the Computer Networks course at AIUB.
 
 ## Labs
 
+### Mid-Term
+
 | Lab | Topic | File |
 |-----|-------|------|
-| [Lab 01](lab-01/) | Two-router topology with serial link | [two-router-serial-topology.pkt](lab-01/two-router-serial-topology.pkt) |
-| [Lab 02](lab-02/) | VLSM subnetting with three routers (RIPv2) | [vlsm-three-router-topology.pkt](lab-02/vlsm-three-router-topology.pkt) |
-| [Lab 03](lab-03/) | EIGRP routing with three routers | [eigrp-three-router-topology.pkt](lab-03/eigrp-three-router-topology.pkt) |
+| [Lab 01](Mid-Term/lab-01/) | Two-router topology with serial link (static routing) | [two-router-serial-topology.pkt](Mid-Term/lab-01/two-router-serial-topology.pkt) |
+| [Lab 02](Mid-Term/lab-02/) | VLSM subnetting with three routers (RIPv2) | [vlsm-three-router-topology.pkt](Mid-Term/lab-02/vlsm-three-router-topology.pkt) |
+| [Lab 03](Mid-Term/lab-03/) | EIGRP routing with three routers | [eigrp-three-router-topology.pkt](Mid-Term/lab-03/eigrp-three-router-topology.pkt) |
+
+### Final-Term
+
+| Lab | Topic | File |
+|-----|-------|------|
+| [Lab 01](Final-Term/lab-01/) | OSPF routing with three routers | [OSPF.pkt](Final-Term/lab-01/OSPF.pkt) |
 
 ---
+
+# Mid-Term
 
 ## Lab 01: Two-Router Serial Topology
 
@@ -18,7 +28,7 @@ Cisco Packet Tracer labs for the Computer Networks course at AIUB.
 Two LANs connected through two routers over a serial link. Each LAN has one switch and one PC. After configuration, all devices can reach each other using ICMP ping.
 
 ### Topology
-![Topology](lab-01/images/topology.png)
+![Topology](Mid-Term/lab-01/images/topology.png)
 
 ```
 PC0 -- Switch0 -- Router0 ==(Serial)== Router1 -- Switch1 -- PC1
@@ -35,14 +45,14 @@ PC0 -- Switch0 -- Router0 ==(Serial)== Router1 -- Switch1 -- PC1
 | Router1 | Fa0/0     | 192.168.3.1  | 255.255.255.0 | N/A             |
 | PC1     | Fa0       | 192.168.3.20 | 255.255.255.0 | 192.168.3.1     |
 
-![Device Info](lab-01/images/device-info.png)
+![Device Info](Mid-Term/lab-01/images/device-info.png)
 
 ### Routing
 Static routes on both routers.
 
 **Router0**
 ```
-ip route 192.168.3.0 255.255.255.0 192.168.2.2
+ip route 192.168.3.0 255.255.255.0 192.168.2.1
 ```
 
 **Router1**
@@ -54,7 +64,7 @@ ip route 192.168.1.0 255.255.255.0 192.168.2.1
 ICMP ping tested between PC0, PC1, Router0 and Router1. All results: **Successful**.
 
 ### How to Open
-Open `lab-01/two-router-serial-topology.pkt` in Cisco Packet Tracer.
+Open `Mid-Term/lab-01/two-router-serial-topology.pkt` in Cisco Packet Tracer.
 
 ---
 
@@ -64,7 +74,7 @@ Open `lab-01/two-router-serial-topology.pkt` in Cisco Packet Tracer.
 Three routers (HQ, Br-1, Br-2) connected in a triangle through serial links. Each router has two LANs (one switch and one PC each), so there are six LANs and three point-to-point links. The block `192.168.1.0/24` is divided using VLSM: each LAN gets a subnet sized to its host count and each serial link uses a /30. RIPv2 with `no auto-summary` is used so the routers can carry subnets of different sizes.
 
 ### Topology
-![Topology](lab-02/images/topology.png)
+![Topology](Mid-Term/lab-02/images/topology.png)
 
 ### VLSM Subnet Plan
 Subnets are allocated from the largest host requirement to the smallest.
@@ -110,62 +120,63 @@ This file uses Router-PT routers (`Fa0/0`, `Fa1/0`, `Se2/0`, `Se3/0`).
 | PC4    | 192.168.1.194 | 255.255.255.240 | 192.168.1.193   |
 | PC5    | 192.168.1.210 | 255.255.255.240 | 192.168.1.209   |
 
-### Routing (RIPv2)
-Same configuration on all three routers:
+### RIPv2 Configuration
 
-### EIGRP Configuration
-
-**Router0(HQ)**
+**Router0 (HQ)**
 ```
-en
-config t
+enable
+configure terminal
 router rip
-version 2
-network 192.168.1.0
-network 192.168.1.64
-network 192.168.1.224
-network 192.168.1.228
-no auto summary
-exit
+ version 2
+ network 192.168.1.0
+ network 192.168.1.64
+ network 192.168.1.224
+ network 192.168.1.228
+ no auto-summary
+ end
+write memory
 ```
 
-**Router1(HQ)**
+**Router1 (Br-1)**
 ```
-en
-config t
+enable
+configure terminal
 router rip
-version 2
-network 192.168.1.128
-network 192.168.1.160
-network 192.168.1.225
-network 192.168.1.231
-no auto summary
-exit
+ version 2
+ network 192.168.1.128
+ network 192.168.1.160
+ network 192.168.1.224
+ network 192.168.1.232
+ no auto-summary
+ end
+write memory
 ```
 
-**Router2(HQ)**
+**Router2 (Br-2)**
 ```
-en
-config t
+enable
+configure terminal
 router rip
-network 192.168.1.192
-network 192.168.1.208
-network 192.168.1.233
-network 192.168.1.229
-no auto summary
-exit
+ version 2
+ network 192.168.1.192
+ network 192.168.1.208
+ network 192.168.1.228
+ network 192.168.1.232
+ no auto-summary
+ end
+write memory
 ```
 
 ### Verification
 - `show ip interface brief`: all used interfaces should be up/up
 - `show ip route`: every router should show `R` (RIP) routes for the subnets it is not directly connected to
 - Ping tests: PC0 to PC5 (`ping 192.168.1.210`) and PC4 to PC3 (`ping 192.168.1.162`)
-```
-![Routing Table](lab-02/images/show-ip-route.png)
-![Ping Test](lab-02/images/ping-test.png) 
-```
+
+![Routing Table](Mid-Term/lab-02/images/show-ip-route.png)
+![Ping Test](Mid-Term/lab-02/images/ping-test.png)
+
 ### How to Open
-Open `lab-02/vlsm-three-router-topology.pkt` in Cisco Packet Tracer.
+Open `Mid-Term/lab-02/vlsm-three-router-topology.pkt` in Cisco Packet Tracer.
 
 ---
 
@@ -175,7 +186,7 @@ Open `lab-02/vlsm-three-router-topology.pkt` in Cisco Packet Tracer.
 Three LANs connected through three routers. EIGRP (AS 1) is used so every router learns every network dynamically. Goal: PCs and laptops in different LANs can ping each other.
 
 ### Topology
-![Topology](lab-03/images/topology.png)
+![Topology](Mid-Term/lab-03/images/topology.png)
 
 ```
 PC0, PC1 -- Switch0 -- Router0 -- Router1 -- Router2 -- Switch2 -- PC2
@@ -214,10 +225,10 @@ All used interfaces are enabled with `no shutdown`.
 enable
 configure terminal
 router eigrp 1
-network 10.0.0.0 0.255.255.255
-network 200.20.20.0 0.0.0.7
-no auto-summary
-exit
+ network 10.0.0.0 0.255.255.255
+ network 200.20.20.0 0.0.0.7
+ no auto-summary
+ exit
 ```
 
 **Router1**
@@ -225,11 +236,11 @@ exit
 enable
 configure terminal
 router eigrp 1
-network 10.0.0.0 0.255.255.255
-network 172.16.0.0 0.0.255.255
-network 195.10.10.0 0.0.0.3
-no auto-summary
-exit
+ network 10.0.0.0 0.255.255.255
+ network 172.16.0.0 0.0.255.255
+ network 195.10.10.0 0.0.0.3
+ no auto-summary
+ exit
 ```
 
 **Router2**
@@ -237,10 +248,10 @@ exit
 enable
 configure terminal
 router eigrp 1
-network 195.10.10.0 0.0.0.3
-network 213.10.10.0 0.0.0.3
-no auto-summary
-exit
+ network 195.10.10.0 0.0.0.3
+ network 213.10.10.0 0.0.0.3
+ no auto-summary
+ exit
 ```
 
 ### Verification
@@ -248,11 +259,97 @@ exit
 - `show ip route`: Router0 should show EIGRP (`D`) routes for 172.16.0.0 and 213.10.10.0
 - Ping order: PC to its gateway, then the next router, then the remote device
 
-
-![Ping Test](lab-03/images/ping-test.png)
+![Ping Test](Mid-Term/lab-03/images/ping-test.png)
 
 ### How to Open
-Open `lab-03/eigrp-three-router-topology.pkt` in Cisco Packet Tracer.
+Open `Mid-Term/lab-03/eigrp-three-router-topology.pkt` in Cisco Packet Tracer.
+
+---
+
+# Final-Term
+
+## Lab 01: OSPF with Three Routers
+
+### Overview
+Three routers connected in a triangle through serial links. OSPF (process 1, area 0) is used so every router learns every network dynamically. Each router has one LAN on Fa0/0 and two serial links (/30) to the other routers.
+
+### Topology
+![Topology](Final-Term/lab-01/images/topology.png)
+
+```
+Router0 (Se2/0) ==== (Se2/0) Router1
+Router0 (Se3/0) ==== (Se2/0) Router2
+Router1 (Se3/0) ==== (Se3/0) Router2
+```
+
+### Router Interfaces
+
+| Router  | Port  | Connected To   | IP Address    | Prefix | Network Address | Wildcard  |
+|---------|-------|----------------|---------------|--------|-----------------|-----------|
+| Router0 | Fa0/0 | LAN            | 172.16.1.17   | /28    | 172.16.1.16     | 0.0.0.15  |
+| Router0 | Se2/0 | Router1 Se2/0  | 192.168.10.1  | /30    | 192.168.10.0    | 0.0.0.3   |
+| Router0 | Se3/0 | Router2 Se2/0  | 192.168.10.5  | /30    | 192.168.10.4    | 0.0.0.3   |
+| Router1 | Fa0/0 | LAN            | 10.10.10.1    | /24    | 10.10.10.0      | 0.0.0.255 |
+| Router1 | Se2/0 | Router0 Se2/0  | 192.168.10.2  | /30    | 192.168.10.0    | 0.0.0.3   |
+| Router1 | Se3/0 | Router2 Se3/0  | 192.168.10.9  | /30    | 192.168.10.8    | 0.0.0.3   |
+| Router2 | Fa0/0 | LAN            | 172.16.1.33   | /29    | 172.16.1.32     | 0.0.0.7   |
+| Router2 | Se2/0 | Router0 Se3/0  | 192.168.10.6  | /30    | 192.168.10.4    | 0.0.0.3   |
+| Router2 | Se3/0 | Router1 Se3/0  | 192.168.10.10 | /30    | 192.168.10.8    | 0.0.0.3   |
+
+### Point-to-Point Links
+
+| Link              | Subnet            | Usable Range  |
+|-------------------|-------------------|---------------|
+| Router0 - Router1 | 192.168.10.0/30   | .1 - .2       |
+| Router0 - Router2 | 192.168.10.4/30   | .5 - .6       |
+| Router1 - Router2 | 192.168.10.8/30   | .9 - .10      |
+
+### OSPF Configuration
+
+**Router0**
+```
+enable
+configure terminal
+router ospf 1
+ network 172.16.1.16 0.0.0.15 area 0
+ network 192.168.10.0 0.0.0.3 area 0
+ network 192.168.10.4 0.0.0.3 area 0
+ end
+write memory
+```
+
+**Router1**
+```
+enable
+configure terminal
+router ospf 1
+ network 10.10.10.0 0.0.0.255 area 0
+ network 192.168.10.0 0.0.0.3 area 0
+ network 192.168.10.8 0.0.0.3 area 0
+ end
+write memory
+```
+
+**Router2**
+```
+enable
+configure terminal
+router ospf 1
+ network 172.16.1.32 0.0.0.7 area 0
+ network 192.168.10.4 0.0.0.3 area 0
+ network 192.168.10.8 0.0.0.3 area 0
+ end
+write memory
+```
+
+### Verification
+- `show ip interface brief`: all used interfaces should be up/up
+- `show ip ospf neighbor`: each router should show 2 neighbors
+- `show ip route ospf`: every router should show `O` (OSPF) routes for the networks it is not directly connected to
+- Ping from a device in one LAN to a device in another LAN
+
+### How to Open
+Open `Final-Term/lab-01/OSPF.pkt` in Cisco Packet Tracer.
 
 ---
 
