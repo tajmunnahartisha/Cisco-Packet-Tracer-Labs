@@ -172,8 +172,6 @@ write memory
 - `show ip route`: every router should show `R` (RIP) routes for the subnets it is not directly connected to
 - Ping tests: PC0 to PC5 (`ping 192.168.1.210`) and PC4 to PC3 (`ping 192.168.1.162`)
 
-![Routing Table](Mid-Term/lab-02/images/show-ip-route.png)
-![Ping Test](Mid-Term/lab-02/images/ping-test.png)
 
 ### How to Open
 Open `Mid-Term/lab-02/vlsm-three-router-topology.pkt` in Cisco Packet Tracer.
